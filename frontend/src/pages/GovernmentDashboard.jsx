@@ -5,8 +5,12 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MapPin, Shield, Zap, Trophy, CheckCircle, AlertTriangle, Bell } from "lucide-react"
+import { MapPin, Shield, Zap, Trophy, CheckCircle, AlertTriangle, Bell, FileText, Plus, Calendar, DollarSign, Users, Eye, Hammer } from "lucide-react"
+import AuditSystem from "@/components/AuditSystem"
 
 export default function GovernmentDashboard() {
   const navigate = useNavigate()
@@ -15,6 +19,17 @@ export default function GovernmentDashboard() {
   const [selectedPriority, setSelectedPriority] = useState("all")
   const [selectedStatus, setSelectedStatus] = useState("all")
   const [dateRange, setDateRange] = useState("7d")
+  
+  // Tender Management States
+  const [showCreateTender, setShowCreateTender] = useState(false)
+  const [tenderTitle, setTenderTitle] = useState("")
+  const [tenderDescription, setTenderDescription] = useState("")
+  const [tenderBudget, setTenderBudget] = useState("")
+  const [tenderDeadline, setTenderDeadline] = useState("")
+  const [tenderDepartment, setTenderDepartment] = useState("")
+  const [tenderLocation, setTenderLocation] = useState("")
+  const [tenderPriority, setTenderPriority] = useState("medium")
+  const [tenderRequirements, setTenderRequirements] = useState("")
 
   const departments = [
     { id: "all", name: "All Departments" },
@@ -80,6 +95,52 @@ export default function GovernmentDashboard() {
     { name: "Traffic Management", pending: 8, resolved: 23, avgTime: "2.2d", efficiency: 90 },
   ]
 
+  const tenders = [
+    {
+      id: "TND001",
+      title: "Road Repair - MG Road",
+      description: "Pothole filling and road resurfacing work on MG Road from Junction A to Junction B",
+      department: "Public Works",
+      budget: "₹2,50,000",
+      deadline: "2024-01-15",
+      location: "MG Road, Sector 15",
+      priority: "High",
+      status: "Active",
+      postedDate: "2023-12-01",
+      bidsReceived: 5,
+      requirements: "PWD License Required, Minimum 2 years experience, Own equipment"
+    },
+    {
+      id: "TND002",
+      title: "Street Light Installation",
+      description: "Installation of 25 LED street lights in residential area",
+      department: "Electrical",
+      budget: "₹1,80,000",
+      deadline: "2024-01-20",
+      location: "Green Valley Society",
+      priority: "Medium",
+      status: "Active",
+      postedDate: "2023-12-03",
+      bidsReceived: 3,
+      requirements: "Electrical License, LED installation experience"
+    },
+    {
+      id: "TND003",
+      title: "Park Maintenance",
+      description: "Complete maintenance of Central Park including landscaping and equipment repair",
+      department: "Parks & Recreation",
+      budget: "₹95,000",
+      deadline: "2024-01-10",
+      location: "Central Park, Sector 12",
+      priority: "Low",
+      status: "Awarded",
+      postedDate: "2023-11-25",
+      bidsReceived: 7,
+      requirements: "Landscaping experience, Equipment maintenance skills",
+      awardedTo: "Rajesh Construction Co."
+    }
+  ]
+
   const filteredComplaints = complaints.filter((complaint) => {
     if (selectedDepartment !== "all" && complaint.department.toLowerCase().replace(" ", "-") !== selectedDepartment)
       return false
@@ -87,6 +148,39 @@ export default function GovernmentDashboard() {
     if (selectedStatus !== "all" && complaint.status !== selectedStatus) return false
     return true
   })
+
+  const handleCreateTender = () => {
+    // Tender creation logic
+    const newTender = {
+      id: `TND${String(tenders.length + 1).padStart(3, '0')}`,
+      title: tenderTitle,
+      description: tenderDescription,
+      department: tenderDepartment,
+      budget: tenderBudget,
+      deadline: tenderDeadline,
+      location: tenderLocation,
+      priority: tenderPriority,
+      status: "Active",
+      postedDate: new Date().toISOString().split('T')[0],
+      bidsReceived: 0,
+      requirements: tenderRequirements
+    }
+    
+    console.log("Creating tender:", newTender)
+    
+    // Reset form
+    setTenderTitle("")
+    setTenderDescription("")
+    setTenderBudget("")
+    setTenderDeadline("")
+    setTenderDepartment("")
+    setTenderLocation("")
+    setTenderPriority("medium")
+    setTenderRequirements("")
+    setShowCreateTender(false)
+    
+    alert("Tender created successfully! Only contractors from the selected department can see this tender.")
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -118,9 +212,11 @@ export default function GovernmentDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8">
+          <TabsList className="grid w-full grid-cols-7 mb-8">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="complaints">Complaints</TabsTrigger>
+            <TabsTrigger value="tenders">Tenders</TabsTrigger>
+            <TabsTrigger value="audit">Audit System</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="departments">Departments</TabsTrigger>
             <TabsTrigger value="blockchain">Blockchain</TabsTrigger>
@@ -288,6 +384,236 @@ export default function GovernmentDashboard() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Tenders Tab */}
+          <TabsContent value="tenders" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Tender Management</h2>
+              <Button onClick={() => setShowCreateTender(true)} className="bg-orange-500 hover:bg-orange-600">
+                <Plus className="w-4 h-4 mr-2" />
+                Create New Tender
+              </Button>
+            </div>
+
+            {/* Create Tender Form */}
+            {showCreateTender && (
+              <Card className="glass border-orange-500/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <FileText className="w-5 h-5 mr-2 text-orange-500" />
+                    Create New Tender
+                  </CardTitle>
+                  <CardDescription>
+                    Create a tender that will be visible only to contractors from the selected department
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Tender Title</label>
+                      <Input
+                        placeholder="Enter tender title..."
+                        value={tenderTitle}
+                        onChange={(e) => setTenderTitle(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Department</label>
+                      <Select value={tenderDepartment} onValueChange={setTenderDepartment}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select department" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Public Works">Public Works</SelectItem>
+                          <SelectItem value="Electrical">Electrical</SelectItem>
+                          <SelectItem value="Sanitation">Sanitation</SelectItem>
+                          <SelectItem value="Water Management">Water Management</SelectItem>
+                          <SelectItem value="Parks & Recreation">Parks & Recreation</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Description</label>
+                    <Textarea
+                      placeholder="Detailed description of the work required..."
+                      value={tenderDescription}
+                      onChange={(e) => setTenderDescription(e.target.value)}
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Budget (₹)</label>
+                      <Input
+                        placeholder="Enter budget amount..."
+                        value={tenderBudget}
+                        onChange={(e) => setTenderBudget(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Deadline</label>
+                      <Input
+                        type="date"
+                        value={tenderDeadline}
+                        onChange={(e) => setTenderDeadline(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Priority</label>
+                      <Select value={tenderPriority} onValueChange={setTenderPriority}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="low">Low</SelectItem>
+                          <SelectItem value="medium">Medium</SelectItem>
+                          <SelectItem value="high">High</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Location</label>
+                    <Input
+                      placeholder="Enter work location..."
+                      value={tenderLocation}
+                      onChange={(e) => setTenderLocation(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Requirements</label>
+                    <Textarea
+                      placeholder="List contractor requirements (licenses, experience, equipment, etc.)..."
+                      value={tenderRequirements}
+                      onChange={(e) => setTenderRequirements(e.target.value)}
+                      rows={2}
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
+                    <Button 
+                      onClick={handleCreateTender}
+                      disabled={!tenderTitle || !tenderDescription || !tenderDepartment || !tenderBudget || !tenderDeadline}
+                      className="bg-orange-500 hover:bg-orange-600"
+                    >
+                      <FileText className="w-4 h-4 mr-2" />
+                      Create Tender
+                    </Button>
+                    <Button variant="outline" onClick={() => setShowCreateTender(false)}>
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Existing Tenders */}
+            <div className="grid gap-4">
+              {tenders.map((tender) => (
+                <Card key={tender.id} className="glass border-l-4 border-l-orange-500">
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CardTitle className="text-xl">{tender.title}</CardTitle>
+                        <CardDescription className="mt-2">{tender.description}</CardDescription>
+                      </div>
+                      <div className="flex gap-2">
+                        <Badge 
+                          variant={
+                            tender.status === "Active" ? "default" : 
+                            tender.status === "Awarded" ? "secondary" : 
+                            "destructive"
+                          }
+                          className={
+                            tender.status === "Active" ? "bg-green-500 text-white" :
+                            tender.status === "Awarded" ? "bg-blue-500 text-white" : ""
+                          }
+                        >
+                          {tender.status}
+                        </Badge>
+                        <Badge 
+                          variant={
+                            tender.priority === "High" ? "destructive" : 
+                            tender.priority === "Medium" ? "default" : 
+                            "secondary"
+                          }
+                        >
+                          {tender.priority} Priority
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Budget:</span>
+                        <p className="font-semibold text-green-600">{tender.budget}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Deadline:</span>
+                        <p className="font-semibold text-orange-600">{tender.deadline}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Department:</span>
+                        <p className="font-semibold">{tender.department}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Bids Received:</span>
+                        <p className="font-semibold">{tender.bidsReceived}</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="text-muted-foreground text-sm">Location:</span>
+                      <p className="flex items-center text-sm mt-1">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        {tender.location}
+                      </p>
+                    </div>
+
+                    <div>
+                      <span className="text-muted-foreground text-sm">Requirements:</span>
+                      <p className="text-sm mt-1">{tender.requirements}</p>
+                    </div>
+
+                    {tender.awardedTo && (
+                      <div>
+                        <span className="text-muted-foreground text-sm">Awarded To:</span>
+                        <p className="text-sm mt-1 font-semibold text-blue-600">{tender.awardedTo}</p>
+                      </div>
+                    )}
+
+                    <div className="flex gap-2 pt-2">
+                      <Button variant="outline" size="sm">
+                        <Eye className="w-4 h-4 mr-2" />
+                        View Bids
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Users className="w-4 h-4 mr-2" />
+                        Manage Contractors
+                      </Button>
+                      {tender.status === "Active" && (
+                        <Button variant="outline" size="sm" className="text-orange-600 border-orange-600">
+                          <Hammer className="w-4 h-4 mr-2" />
+                          Award Contract
+                        </Button>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Audit System Tab */}
+          <TabsContent value="audit">
+            <AuditSystem />
           </TabsContent>
         </Tabs>
       </div>

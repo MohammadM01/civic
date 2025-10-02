@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Camera, Users, Shield, Zap, Trophy, CheckCircle } from "lucide-react"
+import { MapPin, Camera, Users, Shield, Zap, Trophy, CheckCircle, Hammer } from "lucide-react"
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -30,23 +30,32 @@ export default function HomePage() {
               Report issues instantly, track solutions transparently, and build stronger communities through AI-powered
               problem-solving and blockchain accountability.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col lg:flex-row gap-6 justify-center">
               <Button
                 size="lg"
-                className="text-xl px-12 py-8 bg-primary hover:bg-primary/90 text-primary-foreground neon-glow-blue hover:scale-105 transition-all duration-300 scale-on-hover font-semibold"
+                className="text-xl px-12 py-8 gradient-primary text-primary-foreground neon-glow-primary hover:scale-105 transition-all duration-300 scale-on-hover font-semibold shadow-lg"
                 onClick={() => navigate("/citizen")}
               >
                 <Camera className="w-6 h-6 mr-3" />
-                Citizens mobile app
+                Citizens Mobile App
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="text-xl px-12 py-8 glass border-primary/30 text-foreground hover:bg-primary/10 hover:scale-105 transition-all duration-300 font-semibold bg-transparent scale-on-hover neon-glow-purple backdrop-blur-md"
+                className="text-xl px-12 py-8 glass border-primary/20 text-foreground hover:bg-primary/10 hover:scale-105 transition-all duration-300 font-semibold bg-white/50 scale-on-hover neon-glow-blue backdrop-blur-md"
                 onClick={() => navigate("/government")}
               >
                 <Users className="w-6 h-6 mr-3" />
-                Governments Webapp
+                Government Portal
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="text-xl px-12 py-8 glass border-orange-500/20 text-foreground hover:bg-orange-500/10 hover:scale-105 transition-all duration-300 font-semibold bg-white/50 scale-on-hover neon-glow-orange backdrop-blur-md"
+                onClick={() => navigate("/contractor")}
+              >
+                <Hammer className="w-6 h-6 mr-3" />
+                Contractors Portal
               </Button>
             </div>
           </div>
@@ -140,10 +149,10 @@ export default function HomePage() {
           <p className="text-2xl text-muted-foreground mb-12">
             Join the future of civic engagement with blockchain transparency and AI insights
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div className="flex flex-col lg:flex-row gap-6 justify-center">
             <Button
               size="lg"
-              className="text-xl px-12 py-8 gradient-primary neon-glow-primary hover:scale-105 transition-all duration-300"
+              className="text-xl px-12 py-8 gradient-primary neon-glow-primary hover:scale-105 transition-all duration-300 shadow-lg"
               onClick={() => navigate("/citizen")}
             >
               Start Reporting Issues
@@ -151,10 +160,18 @@ export default function HomePage() {
             <Button
               variant="outline"
               size="lg"
-              className="text-xl px-12 py-8 glass border-primary/30 hover:bg-primary/10 hover:scale-105 transition-all duration-300 bg-transparent"
+              className="text-xl px-12 py-8 glass border-primary/20 hover:bg-primary/10 hover:scale-105 transition-all duration-300 bg-white/50 backdrop-blur-md"
               onClick={() => navigate("/government")}
             >
               Access Government Dashboard
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="text-xl px-12 py-8 glass border-orange-500/20 hover:bg-orange-500/10 hover:scale-105 transition-all duration-300 bg-white/50 backdrop-blur-md"
+              onClick={() => navigate("/contractor")}
+            >
+              Join as Contractor
             </Button>
           </div>
         </div>
@@ -165,22 +182,22 @@ export default function HomePage() {
 
 function FeatureCard({ icon, title, description, badge }) {
   return (
-    <Card className="relative overflow-hidden glass border-border/30 hover:border-primary/40 transition-all duration-300 hover:scale-105 neon-glow-blue group scale-on-hover float-animation">
+    <Card className="relative overflow-hidden glass border-border/20 hover:border-primary/30 transition-all duration-300 card-hover neon-glow-blue group float-animation bg-white/80">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between mb-4">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 group-hover:from-primary/30 group-hover:to-secondary/30 transition-all duration-300">
+          <div className="p-3 rounded-xl bg-gradient-to-br from-primary/15 to-accent/15 group-hover:from-primary/25 group-hover:to-accent/25 transition-all duration-300 shadow-sm">
             {icon}
           </div>
           {badge && (
             <Badge
               variant="secondary"
-              className="text-sm px-3 py-1 bg-secondary text-secondary-foreground font-semibold neon-glow-purple"
+              className="text-sm px-3 py-1 bg-gradient-to-r from-primary/10 to-accent/10 text-primary font-semibold border border-primary/20"
             >
               {badge}
             </Badge>
           )}
         </div>
-        <CardTitle className="text-2xl font-bold">{title}</CardTitle>
+        <CardTitle className="text-2xl font-bold text-foreground">{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <CardDescription className="text-lg leading-relaxed text-muted-foreground">{description}</CardDescription>
