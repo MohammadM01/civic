@@ -1,15 +1,23 @@
 "use client"
+import React from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { MapPin, Camera, Users, Shield, Zap, Trophy, CheckCircle, Hammer } from "lucide-react"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 export default function HomePage() {
   const navigate = useNavigate()
 
+
   return (
     <div className="min-h-screen">
+      {/* Theme Toggle - Top Right */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+      
       <div className="relative min-h-screen flex items-center">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 z-10">
           <div className="text-center">
@@ -55,7 +63,7 @@ export default function HomePage() {
                 onClick={() => navigate("/contractor")}
               >
                 <Hammer className="w-6 h-6 mr-3" />
-                Contractors Portal
+                Contractors Mobile App
               </Button>
             </div>
           </div>

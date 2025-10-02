@@ -30,36 +30,46 @@
  }
 
 .dark {
-  /* Enhanced dark mode with cool tones */
-  --background: 240 1% 8%; /* Deep dark blue-black */
-  --foreground: 240 0.5% 90%; /* Light blue-white text */
-  --card: 240 2% 12%; /* Dark card background */
-  --card-foreground: 240 8% 70%; /* Bright blue card text */
-  --popover: 240 2% 15%; /* Dark popover */
-  --popover-foreground: 240 0.5% 90%; /* Light popover text */
-  --primary: 240 12% 60%; /* Brighter blue for dark mode */
-  --primary-foreground: 240 1% 8%; /* Dark text on primary */
-  --secondary: 280 15% 65%; /* Brighter purple for dark mode */
-  --secondary-foreground: 240 1% 8%; /* Dark text on secondary */
-  --muted: 240 2% 18%; /* Dark muted background */
-  --muted-foreground: 240 1% 70%; /* Light muted text */
-  --accent: 280 15% 65%; /* Bright purple accent */
-  --accent-foreground: 240 1% 8%; /* Dark text on accent */
-  --destructive: 15 18% 60%; /* Bright red for visibility */
-  --destructive-foreground: 240 0.5% 90%; /* Light text on destructive */
-  --border: 240 2% 25%; /* Dark borders */
-  --input: 240 2% 15%; /* Dark input background */
-  --ring: 240 12% 60%; /* Bright blue focus ring */
-  --chart-1: 240 12% 60%; /* Bright blue */
-  --chart-2: 280 15% 65%; /* Bright purple */
-  --chart-3: 180 12% 65%; /* Bright teal */
-  --chart-4: 240 10% 75%; /* Light blue */
-  --chart-5: 240 12% 70%; /* Medium bright blue */
+  /* Dark Black Theme */
+  --background: 0 0% 3%; /* Dark black background */
+  --foreground: 0 0% 98%; /* Pure white text */
+  --card: 0 0% 6%; /* Very dark gray for cards */
+  --card-foreground: 0 0% 98%; /* Pure white card text */
+  --popover: 0 0% 6%; /* Dark gray popover */
+  --popover-foreground: 0 0% 98%; /* White popover text */
+  --primary: 199 89% 48%; /* Bright cyan blue */
+  --primary-foreground: 0 0% 98%; /* White text on primary */
+  --secondary: 0 0% 12%; /* Dark gray */
+  --secondary-foreground: 0 0% 98%; /* White text on secondary */
+  --muted: 0 0% 9%; /* Dark gray muted */
+  --muted-foreground: 0 0% 70%; /* Light gray muted text */
+  --accent: 199 89% 48%; /* Bright cyan accent */
+  --accent-foreground: 0 0% 98%; /* White text on accent */
+  --destructive: 0 62.8% 50%; /* Bright red */
+  --destructive-foreground: 0 0% 98%; /* White text on destructive */
+  --border: 0 0% 15%; /* Dark gray borders */
+  --input: 0 0% 9%; /* Dark gray input background */
+  --ring: 199 89% 48%; /* Cyan focus ring */
+  --chart-1: 199 89% 48%; /* Cyan */
+  --chart-2: 142 76% 50%; /* Green */
+  --chart-3: 38 92% 50%; /* Orange */
+  --chart-4: 271 81% 56%; /* Purple */
+  --chart-5: 339 82% 52%; /* Pink */
 }
 
 @layer base {
   * {
     border-color: hsl(var(--border));
+    transition: background-color 0.1s ease, border-color 0.1s ease, color 0.1s ease;
+  }
+  
+  /* Instant theme switching */
+  html {
+    transition: none !important;
+  }
+  
+  body {
+    transition: background 0.1s ease, color 0.1s ease;
   }
   body {
     color: hsl(var(--foreground));
@@ -74,6 +84,18 @@
     min-height: 100vh;
   }
 
+
+  .dark body {
+    /* Dark black gradient */
+    background: linear-gradient(135deg,
+      hsl(0 0% 3%) 0%,            /* Dark black */
+      hsl(0 0% 1%) 25%,           /* Pure black */
+      hsl(0 0% 3%) 50%,           /* Dark black */
+      hsl(0 0% 0%) 75%,           /* Pure black */
+      hsl(0 0% 3%) 100%);         /* Dark black */
+    background-attachment: fixed;
+  }
+
   /* Modern glassmorphism effects */
   .glass {
     backdrop-filter: blur(20px);
@@ -81,6 +103,14 @@
     border: 1px solid rgba(59, 130, 246, 0.1); /* Modern blue border */
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(34, 197, 194, 0.2); /* Cyan border */
+    background: rgba(10, 10, 10, 0.8); /* Dark black with transparency */
+    box-shadow: 0 8px 32px rgba(34, 197, 194, 0.1), 0 2px 8px rgba(0, 0, 0, 0.5);
   }
 
   .glass-dark {
@@ -112,6 +142,19 @@
     box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 2px 8px rgba(59, 130, 246, 0.3);
   }
 
+  /* Dark theme specific glows */
+  .dark .neon-glow-blue {
+    box-shadow: 0 4px 20px rgba(34, 197, 194, 0.4), 0 2px 8px rgba(34, 197, 194, 0.3);
+  }
+
+  .dark .neon-glow-primary {
+    box-shadow: 0 4px 20px rgba(34, 197, 194, 0.5), 0 2px 8px rgba(34, 197, 194, 0.4);
+  }
+
+  .dark .neon-glow-teal {
+    box-shadow: 0 4px 20px rgba(34, 197, 194, 0.4), 0 2px 8px rgba(34, 197, 194, 0.3);
+  }
+
   /* Modern gradient backgrounds */
   .gradient-primary {
     background: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 45%) 100%);
@@ -131,6 +174,15 @@
 
   .gradient-warm {
     background: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(339 82% 52%) 100%);
+  }
+
+  /* Dark theme gradients */
+  .dark .gradient-primary {
+    background: linear-gradient(135deg, hsl(199 89% 48%) 0%, hsl(184 91% 35%) 100%);
+  }
+
+  .dark .gradient-cool {
+    background: linear-gradient(135deg, hsl(199 89% 48%) 0%, hsl(184 91% 35%) 100%);
   }
 
   /* Animated modern gradients */

@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MapPin, Shield, Zap, Trophy, CheckCircle, AlertTriangle, Bell, FileText, Plus, Calendar, DollarSign, Users, Eye, Hammer } from "lucide-react"
 import AuditSystem from "@/components/AuditSystem"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 export default function GovernmentDashboard() {
   const navigate = useNavigate()
@@ -184,6 +185,11 @@ export default function GovernmentDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Theme Toggle - Top Right */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+      
       <div className="border-b border-border bg-card/50 glass">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">

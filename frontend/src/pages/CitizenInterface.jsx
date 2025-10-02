@@ -24,6 +24,7 @@ import {
   CheckCircle,
   Trophy,
 } from "lucide-react"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 export default function CitizenInterface() {
   const navigate = useNavigate()
@@ -75,10 +76,15 @@ export default function CitizenInterface() {
 
   return (
     <div className="min-h-screen flex items-start justify-center py-10">
+      {/* Theme Toggle - Top Right */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+      
       {/* Phone frame wrapper (simple border only) */}
-      <div className="relative w-[390px] h-[780px] rounded-[44px] border-[10px] border-neutral-900 bg-transparent shadow-[0_20px_60px_rgba(2,6,23,0.25)]">
+      <div className="relative w-[390px] h-[780px] rounded-[44px] border-[10px] border-neutral-900 dark:border-cyan-400 bg-transparent shadow-[0_20px_60px_rgba(2,6,23,0.25)]">
         {/* Screen (scrollable) inset */}
-        <div className="absolute inset-2 rounded-[34px] overflow-y-auto bg-background border border-neutral-200">
+        <div className="absolute inset-2 rounded-[34px] overflow-y-auto bg-background border border-neutral-200 dark:border-cyan-400/30">
       <div className="sticky top-0 z-50 glass backdrop-blur-xl border-b border-border/30">
         <div className="flex items-center justify-between p-4">
           <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="hover:bg-primary/10">
